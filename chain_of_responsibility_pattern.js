@@ -9,7 +9,6 @@ class Logger {
 	
 	setNextLogger(nextLogger) {
 		this.nextLogger = nextLogger;
-		//console.log(this.nextLogger);
 	}
 	
 	logMessage(level, message) {
@@ -48,17 +47,6 @@ class ConsoleLogger extends Logger {
 	}
 }
 
-class ErrorLogger extends Logger {
-	constructor(level) {
-		super();
-		this.level = level;
-	}
-	
-	write(message) {
-		console.log('Error Console::Logger: ' + message);
-	}
-}
-
 class FileLogger extends Logger {
 	constructor(level) {
 		super();
@@ -66,7 +54,18 @@ class FileLogger extends Logger {
 	}
 	
 	write(message) {
-		console.log('File::Logger: ' + message);
+		console.log('Standard File::Logger: ' + message);
+	}
+}
+
+class ErrorLogger extends Logger {
+	constructor(level) {
+		super();
+		this.level = level;
+	}
+	
+	write(message) {
+		console.log('Standard Error::Logger: ' + message);
 	}
 }
 
@@ -76,8 +75,6 @@ const consoleLogger = new ConsoleLogger(new Logger().getINFO());
 
 errorLogger.setNextLogger(fileLogger);
 fileLogger.setNextLogger(consoleLogger);
-
-//console.log(loggerChain);
 
 errorLogger.logMessage(new Logger().getINFO(), 'This is an information.');
 errorLogger.logMessage(new Logger().getDEBUG(), 'This is a debug level information.');
